@@ -1,0 +1,41 @@
+[package]
+name = "fast-medium"
+version = "0.1.0"
+edition = "2021"
+default-run = "fast-medium"
+
+[[bin]]
+name = "fast-medium"
+path = "src/main.rs"
+required-features = ["web"]
+
+[[bin]]
+name = "fast-medium-api"
+path = "src/bin/api.rs"
+required-features = ["server"]
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+chrono = { version = "0.4", features = ["serde"] }
+dioxus = { version = "0.7.10", features = ["router"], optional = true }
+reqwest = { version = "0.12", default-features = false, features = ["json"], optional = true }
+web-sys = { version = "0.3", features = ["Window", "Location"], optional = true }
+axum = { version = "0.8", optional = true }
+tower-http = { version = "0.6", features = ["cors", "trace"], optional = true }
+sqlx = { version = "0.8", default-features = false, features = ["runtime-tokio", "sqlite", "chrono"], optional = true }
+argon2 = { version = "0.5", features = ["password-hash", "rand"], optional = true }
+rand_core = { version = "0.6", features = ["getrandom"], optional = true }
+uuid = { version = "1", features = ["v4"], optional = true }
+dotenvy = { version = "0.15", optional = true }
+lettre = { version = "0.11", default-features = false, features = ["builder", "smtp-transport", "tokio1", "tokio1-rustls", "ring", "rustls-native-certs"], optional = true }
+tokio = { version = "1", features = ["macros", "rt-multi-thread", "net", "signal", "sync", "time"], optional = true }
+pulldown-cmark = { version = "0.12", optional = true }
+slug = { version = "0.1", optional = true }
+sha2 = { version = "0.10", optional = true }
+http = { version = "1", optional = true }
+
+[features]
+default = ["web"]
+web = ["dep:dioxus", "dioxus/web", "dep:reqwest", "dep:web-sys"]
+server = ["dep:sha2", "dep:axum", "dep:tower-http", "dep:sqlx", "dep:argon2", "dep:rand_core", "dep:uuid", "dep:dotenvy", "dep:lettre", "dep:tokio", "dep:pulldown-cmark", "dep:slug", "dep:http"]
