@@ -1,3 +1,4 @@
+use crate::ui::{Button, ButtonSize, ButtonVariant, Dialog};
 use dioxus::prelude::*;
 
 use crate::client::auth::get_current_user;
@@ -170,30 +171,12 @@ pub fn DashboardPage() -> Element {
                                                 }
                                             }
 
-                                            if pending_delete().as_deref() == Some(post.id.as_str()) {
-                                                span { class: "delete-warning", "Delete this story permanently?" }
-                                                button { class: "btn btn-small btn-outline", disabled: busy(), onclick: move |_| pending_delete.set(None), "Keep story" }
-                                                button {
-                                                    class: "btn btn-small btn-danger", disabled: busy(),
-                                                    onclick: {
-                                                        let pid = post.id.clone();
-                                                        move |_| {
-                                                            if busy() { return; }
-                                                            busy.set(true);
-                                                            action_error.set(None);
-                                                            let pid = pid.clone();
-                                                            spawn(async move {
-                                                                match delete_post(pid).await {
-                                                                    Ok(()) => { pending_delete.set(None); posts.restart(); }
-                                                                    Err(e) => action_error.set(Some(e)),
-                                                                }
-                                                                busy.set(false);
-                                                            });
-                                                        }
-                                                    }, "Confirm delete"
-                                                }
-                                            } else {
-                                                button { class: "btn btn-small btn-danger", disabled: busy(), onclick: { let pid = post.id.clone(); move |_| pending_delete.set(Some(pid.clone())) }, "Delete" }
+                                            Button {
+                                                variant: ButtonVariant::Destructive,
+                                                size: ButtonSize::Small,
+                                                disabled: busy(),
+                                                onclick: { let pid = post.id.clone(); move |_| { action_error.set(None); pending_delete.set(Some(pid.clone())); } },
+                                                "Delete"
                                             }
 
                                         }
@@ -216,6 +199,39 @@ pub fn DashboardPage() -> Element {
                         p { "Loading your stories..." }
                     }
                 },
+            }
+            Dialog {
+                id: "delete-story-dialog",
+                open: pending_delete().is_some(),
+                on_open_change: move |open: bool| { if !open && !busy() { pending_delete.set(None); } },
+                title: "Delete this story?",
+                description: "This permanently removes the story. This action cannot be undone.",
+                dismissible: !busy(),
+                if let Some(error) = action_error() {
+                    p { class: "fui-error", role: "alert", "{error}" }
+                }
+                div { class: "dashboard-post-actions",
+                    Button { variant: ButtonVariant::Secondary, disabled: busy(),
+                        onclick: move |_| pending_delete.set(None), "Keep story" }
+                    Button {
+                        variant: ButtonVariant::Destructive,
+                        loading: busy(),
+                        onclick: move |_| {
+                            if busy() { return; }
+                            let Some(id) = pending_delete() else { return; };
+                            busy.set(true);
+                            action_error.set(None);
+                            spawn(async move {
+                                match delete_post(id).await {
+                                    Ok(()) => { pending_delete.set(None); posts.restart(); }
+                                    Err(error) => action_error.set(Some(error)),
+                                }
+                                busy.set(false);
+                            });
+                        },
+                        if busy() { "Deleting…" } else { "Confirm delete" }
+                    }
+                }
             }
         }
     }

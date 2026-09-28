@@ -20,6 +20,9 @@ pub fn App() -> Element {
             href: MAIN_CSS,
         }
 
-        Router::<Route> {}
+        crate::ui::ThemeStyles {}
+        crate::ui::Theme {
+            Router::<Route> {}
+        }
     }
 }

@@ -1,0 +1,93 @@
+[data-fui-theme="fastmedium"] {
+  --fui-background: #fbe4e4;
+  --fui-surface: #fff3f0;
+  --fui-control-background: #fff2ee;
+  --fui-surface-muted: #f5d4d2;
+  --fui-foreground: #111111;
+  --fui-muted-foreground: #755b58;
+  --fui-accent: #d34a45;
+  /* Darker action surface keeps small light labels above 4.5:1 contrast. */
+  --fui-action: #ae3b36;
+  --fui-action-hover: #902f2b;
+  --fui-action-foreground: #fff3f0;
+  --fui-border: #d5aaa6;
+  --fui-border-strong: #111111;
+  --fui-error: #902f2b;
+  --fui-focus: #902f2b;
+  --fui-font-body: "Poppins", system-ui, sans-serif;
+  --fui-font-heading: "Geist Mono", ui-monospace, monospace;
+  --fui-font-mono: "Geist Mono", ui-monospace, monospace;
+  --fui-radius-control: 3px;
+  --fui-radius-panel: 0px;
+  --fui-control-height: 44px;
+  --fui-control-padding: 11px 17px;
+  --fui-overlay: #21131080;
+  color: var(--fui-foreground);
+  font-family: var(--fui-font-body);
+}
+[data-fui-theme][data-density="compact"] { --fui-control-height: 36px; --fui-control-padding: 7px 12px; }
+.fui-theme :where(.fui-button, .fui-input, .fui-dialog, .fui-table, .fui-table-scroll, .fui-field) { box-sizing: border-box; }
+.fui-theme :where(.fui-button, .fui-input, .fui-table-scroll, .fui-dialog-close):focus-visible {
+  outline: 2px solid var(--fui-focus); outline-offset: 3px;
+}
+.fui-theme .fui-button {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: var(--fui-control-height); padding: var(--fui-control-padding);
+  border: 1px solid var(--fui-action); border-radius: var(--fui-radius-control);
+  background: var(--fui-action); color: var(--fui-action-foreground);
+  font: 500 13px/1.5 var(--fui-font-body); cursor: pointer;
+  transition: background-color 120ms, border-color 120ms; text-decoration: none;
+}
+.fui-theme .fui-button:hover:not(:disabled) { background: var(--fui-action-hover); }
+.fui-theme .fui-button[data-variant="secondary"] { background: transparent; border-color: var(--fui-border-strong); color: var(--fui-foreground); }
+.fui-theme .fui-button[data-variant="ghost"] { background: transparent; border-color: transparent; color: var(--fui-foreground); }
+.fui-theme .fui-button[data-variant="destructive"] { background: transparent; border-color: var(--fui-error); color: var(--fui-error); }
+.fui-theme .fui-button:not([data-variant="primary"]):hover:not(:disabled) { background: var(--fui-surface-muted); }
+.fui-theme .fui-button[data-size="small"] { font-size: 12px; padding: 7px 12px; min-height: 36px; }
+.fui-theme .fui-button[data-size="large"] { font-size: 15px; padding: 14px 22px; min-height: 48px; }
+.fui-theme .fui-button[data-full-width="true"] { width: 100%; }
+.fui-theme .fui-button:disabled { opacity: .55; cursor: not-allowed; }
+.fui-theme .fui-spinner { width: 14px; height: 14px; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: fui-spin .8s linear infinite; }
+@keyframes fui-spin { to { transform: rotate(360deg); } }
+.fui-theme .fui-field { display: flex; flex-direction: column; gap: 7px; min-width: 0; }
+.fui-theme .fui-label { color: var(--fui-foreground); font: 500 13px/1.6 var(--fui-font-body); }
+.fui-theme .fui-input {
+  display: block; width: 100%; min-width: 0; min-height: var(--fui-control-height);
+  padding: 11px 12px; color: var(--fui-foreground); background: var(--fui-control-background);
+  border: 1px solid var(--fui-border-strong); border-radius: var(--fui-radius-control);
+  font: 400 14px/1.6 var(--fui-font-body);
+}
+.fui-theme .fui-input::placeholder { color: var(--fui-muted-foreground); opacity: 1; }
+.fui-theme .fui-input[aria-invalid="true"] { border-color: var(--fui-error); border-width: 2px; padding: 10px 11px; }
+.fui-theme .fui-input:disabled { opacity: .6; cursor: not-allowed; }
+.fui-theme .fui-hint, .fui-theme .fui-error { margin: 0; font: 400 12px/1.65 var(--fui-font-body); overflow-wrap: anywhere; }
+.fui-theme .fui-hint { color: var(--fui-muted-foreground); }
+.fui-theme .fui-error { color: var(--fui-error); }
+.fui-theme .fui-table-scroll { max-width: 100%; overflow-x: auto; border: 1px solid var(--fui-border-strong); }
+.fui-theme .fui-table { width: 100%; margin: 0; border-collapse: collapse; color: var(--fui-foreground); font: 400 13px/1.6 var(--fui-font-body); }
+.fui-theme .fui-table caption { text-align: left; padding: 16px; font: 500 14px/1.5 var(--fui-font-heading); border-bottom: 1px solid var(--fui-border-strong); }
+.fui-theme .fui-table :where(th, td) { padding: 13px 16px; border: 0; border-bottom: 1px solid var(--fui-border); text-align: left; vertical-align: middle; }
+.fui-theme .fui-table th { color: var(--fui-muted-foreground); background: var(--fui-surface-muted); font: 500 12px/1.6 var(--fui-font-mono); }
+.fui-theme .fui-table tbody tr:last-child td { border-bottom: 0; }
+.fui-theme .fui-table tbody tr:hover { background: var(--fui-surface); }
+.fui-theme .fui-dialog {
+  width: min(520px, calc(100vw - 32px)); max-height: calc(100dvh - 48px); overflow: auto;
+  margin: auto; padding: 28px; border: 1px solid var(--fui-border-strong); border-radius: var(--fui-radius-panel);
+  background: var(--fui-surface); color: var(--fui-foreground); font: 400 14px/1.7 var(--fui-font-body);
+  box-shadow: 8px 8px 0 #11111116;
+}
+.fui-theme .fui-dialog::backdrop { background: var(--fui-overlay); }
+.fui-theme .fui-dialog-header { display: flex; gap: 16px; align-items: flex-start; justify-content: space-between; }
+.fui-theme .fui-dialog-title { margin: 0; font: 600 24px/1.35 var(--fui-font-heading); letter-spacing: -.04em; overflow-wrap: anywhere; }
+.fui-theme .fui-dialog-close { flex: 0 0 36px; width: 36px; height: 36px; padding: 0; border: 1px solid var(--fui-border); border-radius: 3px; color: var(--fui-foreground); background: transparent; font: 24px/1 var(--fui-font-body); cursor: pointer; }
+.fui-theme .fui-dialog-close:disabled { opacity: .4; cursor: not-allowed; }
+.fui-theme .fui-dialog-description { margin: 12px 0 0; color: var(--fui-muted-foreground); font: 400 14px/1.75 var(--fui-font-body); }
+.fui-theme .fui-dialog-body { margin-top: 24px; }
+/* Applies only while one of our native modals is actually open. No JS lock to leak. */
+html:has(dialog.fui-dialog[open]) { overflow: hidden; }
+@media (prefers-reduced-motion: reduce) {
+  .fui-theme .fui-button { transition: none; }
+  .fui-theme .fui-spinner { animation: none; border-style: dotted; }
+}
+@media (max-width: 480px) { .fui-theme .fui-dialog { padding: 20px; } }
+

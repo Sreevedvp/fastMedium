@@ -6,6 +6,7 @@ mod enums;
 mod layouts;
 mod models;
 mod pages;
+mod ui;
 
 fn main() {
     dioxus::launch(app::App);

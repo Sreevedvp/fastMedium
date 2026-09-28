@@ -1,3 +1,4 @@
+use crate::ui::{Button, ButtonType, Field, Input};
 use dioxus::prelude::*;
 
 use crate::client::auth;
@@ -36,75 +37,69 @@ pub fn LoginPage() -> Element {
     };
 
     rsx! {
-        section {
-            class: "auth-page",
+           section {
+               class: "auth-page",
 
-            div {
-                class: "auth-card",
-                p { class: "eyebrow", "YOUR NEXT CHAPTER" }
+               div {
+                   class: "auth-card",
+                   p { class: "eyebrow", "YOUR NEXT CHAPTER" }
 
-                h1 { class: "auth-title", "Welcome back" }
-                p { class: "auth-subtitle", "Sign in to your account" }
+                   h1 { class: "auth-title", "Welcome back" }
+                   p { class: "auth-subtitle", "Sign in to your account" }
 
-                if let Some(err) = error() {
-                    div {
-                        class: "auth-error",
-                        role: "alert",
-                        "{err}"
-                    }
-                }
+                   if let Some(err) = error() {
+                       div {
+                           class: "auth-error",
+                           role: "alert",
+                           "{err}"
+                       }
+                   }
 
-                form {
-                    class: "auth-form",
-                    onsubmit: handle_login,
+                   form {
+                       class: "auth-form",
+                       onsubmit: handle_login,
 
-                    div {
-                        class: "form-group",
-                        label { r#for: "email", "Email" }
-                        input {
-                            r#type: "email",
-                            id: "email",
-                            name: "email",
-                            autocomplete: "username",
-                            placeholder: "you@example.com",
-                            required: true,
-                            value: "{email}",
-                            oninput: move |e| email.set(e.value()),
-                        }
-                    }
-
-                    div {
-                        class: "form-group",
-                        label { r#for: "password", "Password" }
-                        input {
-                            r#type: "password",
-                            id: "password",
-                            name: "password",
-                            autocomplete: "current-password",
-                            placeholder: "••••••••",
-                            required: true,
-                            value: "{password}",
-                            oninput: move |e| password.set(e.value()),
-                        }
-                    }
-
-                    button {
-                        r#type: "submit",
-                        class: "btn btn-primary btn-full",
-                        disabled: loading(),
-                        if loading() { "Signing in..." } else { "Sign In" }
-                    }
-                }
-
-                p {
-                    class: "auth-footer",
-                    "Don't have an account? "
-                    Link {
-                        to: Route::RegisterPage {},
-                        "Create one"
-                    }
-                }
-            }
-        }
+                       Field { id: "email", label: "Email",
+    Input {
+                               input_type: "email",
+                               name: "email",
+                               autocomplete: "username",
+                               placeholder: "you@example.com",
+                               required: true,
+                               value: email(),
+                               on_value_change: move |value| email.set(value),
     }
+    }
+
+                       Field { id: "password", label: "Password",
+    Input {
+                               input_type: "password",
+                               name: "password",
+                               autocomplete: "current-password",
+                               placeholder: "••••••••",
+                               required: true,
+                               value: password(),
+                               on_value_change: move |value| password.set(value),
+    }
+    }
+
+                       Button {
+                           button_type: ButtonType::Submit,
+                           full_width: true,
+                           loading: loading(),
+                           if loading() { "Signing in..." } else { "Sign In" }
+                       }
+                   }
+
+                   p {
+                       class: "auth-footer",
+                       "Don't have an account? "
+                       Link {
+                           to: Route::RegisterPage {},
+                           "Create one"
+                       }
+                   }
+               }
+           }
+       }
 }

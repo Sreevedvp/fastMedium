@@ -1,5 +1,11 @@
 # fastMedium
 
+The canonical UI library is now a separate Codex project, `dioxus-complib`,
+at `/Users/sreevedvp/Documents/ChatGPT/dioxus-complib`. FastMedium consumes an
+editable component snapshot in `src/ui`, installed through the Dioxus registry.
+It does not depend on the library checkout at build time. See `src/ui/README.md`
+for the source and update workflow.
+
 An editorial writing app with a Dioxus 0.7 browser interface and an independent
 Axum JSON API running on Tokio. Dioxus Fullstack and server-function macros are
 not used. SQLite accounts, sessions, and stories remain in the existing database.

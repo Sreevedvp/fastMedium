@@ -1,3 +1,4 @@
+use crate::ui::{Button, ButtonType, Field, Input};
 use dioxus::prelude::*;
 
 use crate::client::auth;
@@ -49,122 +50,107 @@ pub fn RegisterPage() -> Element {
     };
 
     rsx! {
-        section {
-            class: "auth-page",
+           section {
+               class: "auth-page",
 
-            div {
-                class: "auth-card",
-                p { class: "eyebrow", "YOUR NEXT CHAPTER" }
+               div {
+                   class: "auth-card",
+                   p { class: "eyebrow", "YOUR NEXT CHAPTER" }
 
-                h1 { class: "auth-title", "Join fastMedium" }
-                p { class: "auth-subtitle", "Create your account and start writing" }
+                   h1 { class: "auth-title", "Join fastMedium" }
+                   p { class: "auth-subtitle", "Create your account and start writing" }
 
-                if let Some(err) = error() {
-                    div {
-                        class: "auth-error",
-                        role: "alert",
-                        "{err}"
-                    }
-                }
+                   if let Some(err) = error() {
+                       div {
+                           class: "auth-error",
+                           role: "alert",
+                           "{err}"
+                       }
+                   }
 
-                form {
-                    class: "auth-form",
-                    onsubmit: handle_register,
+                   form {
+                       class: "auth-form",
+                       onsubmit: handle_register,
 
-                    div {
-                        class: "form-row",
+                       div {
+                           class: "form-row",
 
-                        div {
-                            class: "form-group",
-                            label { r#for: "username", "Username" }
-                            input {
-                                r#type: "text",
-                                id: "username",
-                                placeholder: "johndoe",
-                                required: true,
-                                value: "{username}",
-                                oninput: move |e| username.set(e.value()),
-                            }
-                        }
-
-                        div {
-                            class: "form-group",
-                            label { r#for: "display_name", "Display Name" }
-                            input {
-                                r#type: "text",
-                                id: "display_name",
-                                placeholder: "John Doe",
-                                required: true,
-                                value: "{display_name}",
-                                oninput: move |e| display_name.set(e.value()),
-                            }
-                        }
-                    }
-
-                    div {
-                        class: "form-group",
-                        label { r#for: "reg-email", "Email" }
-                        input {
-                            r#type: "email",
-                            id: "reg-email",
-                            name: "email",
-                            autocomplete: "email",
-                            placeholder: "you@example.com",
-                            required: true,
-                            value: "{email}",
-                            oninput: move |e| email.set(e.value()),
-                        }
-                    }
-
-                    div {
-                        class: "form-row",
-
-                        div {
-                            class: "form-group",
-                            label { r#for: "reg-password", "Password" }
-                            input {
-                                r#type: "password",
-                                id: "reg-password",
-                                autocomplete: "new-password",
-                                placeholder: "Min 8 characters",
-                                required: true,
-                                value: "{password}",
-                                oninput: move |e| password.set(e.value()),
-                            }
-                        }
-
-                        div {
-                            class: "form-group",
-                            label { r#for: "confirm-password", "Confirm Password" }
-                            input {
-                                r#type: "password",
-                                id: "confirm-password",
-                                autocomplete: "new-password",
-                                placeholder: "••••••••",
-                                required: true,
-                                value: "{confirm_password}",
-                                oninput: move |e| confirm_password.set(e.value()),
-                            }
-                        }
-                    }
-
-                    button {
-                        r#type: "submit",
-                        class: "btn btn-primary btn-full",
-                        disabled: loading(),
-                        if loading() { "Creating account..." } else { "Create Account" }
-                    }
-                }
-
-                p {
-                    class: "auth-footer",
-                    "Already have an account? "
-                    Link {
-                        to: Route::LoginPage {},
-                        "Sign in"
-                    }
-                }
-            }
-        }
+                           Field { id: "username", label: "Username",
+    Input {
+                                   input_type: "text",
+                                   placeholder: "johndoe",
+                                   required: true,
+                                   value: username(),
+                                   on_value_change: move |value| username.set(value),
     }
+    }
+
+                           Field { id: "display_name", label: "Display Name",
+    Input {
+                                   input_type: "text",
+                                   placeholder: "John Doe",
+                                   required: true,
+                                   value: display_name(),
+                                   on_value_change: move |value| display_name.set(value),
+    }
+    }
+                       }
+
+                       Field { id: "reg-email", label: "Email",
+    Input {
+                               input_type: "email",
+                               name: "email",
+                               autocomplete: "email",
+                               placeholder: "you@example.com",
+                               required: true,
+                               value: email(),
+                               on_value_change: move |value| email.set(value),
+    }
+    }
+
+                       div {
+                           class: "form-row",
+
+                           Field { id: "reg-password", label: "Password",
+    Input {
+                                   input_type: "password",
+                                   autocomplete: "new-password",
+                                   placeholder: "Min 8 characters",
+                                   required: true,
+                                   value: password(),
+                                   on_value_change: move |value| password.set(value),
+    }
+    }
+
+                           Field { id: "confirm-password", label: "Confirm Password",
+    Input {
+                                   input_type: "password",
+                                   autocomplete: "new-password",
+                                   placeholder: "••••••••",
+                                   required: true,
+                                   value: confirm_password(),
+                                   on_value_change: move |value| confirm_password.set(value),
+    }
+    }
+                       }
+
+                       Button {
+                           button_type: ButtonType::Submit,
+                           full_width: true,
+                           loading: loading(),
+                           if loading() { "Creating account..." } else { "Create Account" }
+                       }
+                   }
+
+                   p {
+                       class: "auth-footer",
+                       "Already have an account? "
+                       Link {
+                           to: Route::LoginPage {},
+                           "Sign in"
+                       }
+                   }
+               }
+           }
+       }
 }

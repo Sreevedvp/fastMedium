@@ -1,5 +1,6 @@
 use super::home::COVER;
 use crate::enums::app::Route;
+use crate::ui::Table;
 use dioxus::prelude::*;
 
 #[component]
@@ -32,7 +33,7 @@ pub fn ReferencePage() -> Element {
                     div { class: "editorial-callout", span { "↳" } p { strong { "Try this." } " Take two notes that seem unrelated. Write one sentence describing what they might have in common." } }
                     section { id: "practice", h2 { "A quieter writing practice" }
                         p { "Collecting is only the beginning. The value arrives when we revisit an observation, sharpen a question, and give an unfinished thought enough attention to become a story." }
-                        table { thead { tr { th { "Start with" } th { "Make room for" } } } tbody {
+                        Table { caption: "A quieter writing practice", thead { tr { th { scope: "col", "Start with" } th { scope: "col", "Make room for" } } } tbody {
                             tr { td { "An observation" } td { "A question worth asking" } }
                             tr { td { "A saved passage" } td { "Your own interpretation" } }
                             tr { td { "A rough draft" } td { "A new connection" } }
